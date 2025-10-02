@@ -60,3 +60,9 @@ def create_item(resource: str, payload: dict, x_api_key: str | None = Header(Non
     conn.commit(); rid = cur.lastrowid
     row = conn.execute(f"SELECT * FROM {resource} WHERE id=?", (rid,)).fetchone(); conn.close()
     return dict(row)
+
+
+from fastapi.staticfiles import StaticFiles
+import os
+frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
