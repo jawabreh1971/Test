@@ -1,0 +1,98 @@
+{
+  "name": "contractor",
+  "resources": [
+    {
+      "name": "projects",
+      "title": "المشاريع",
+      "fields": {
+        "code": {
+          "type": "text"
+        },
+        "name": {
+          "type": "text"
+        },
+        "client": {
+          "type": "text"
+        },
+        "location": {
+          "type": "text"
+        },
+        "status": {
+          "type": "text"
+        },
+        "start_date": {
+          "type": "text"
+        },
+        "end_date": {
+          "type": "text"
+        }
+      }
+    },
+    {
+      "name": "boq_items",
+      "title": "بنود الـBOQ",
+      "fields": {
+        "project_id": {
+          "type": "integer"
+        },
+        "wbs_id": {
+          "type": "integer"
+        },
+        "item_code": {
+          "type": "text"
+        },
+        "description": {
+          "type": "text"
+        },
+        "unit": {
+          "type": "text"
+        },
+        "qty": {
+          "type": "number"
+        },
+        "unit_price": {
+          "type": "number"
+        }
+      }
+    },
+    {
+      "name": "vendors",
+      "title": "الموردون",
+      "fields": {
+        "name": {
+          "type": "text"
+        },
+        "category": {
+          "type": "text"
+        },
+        "phone": {
+          "type": "text"
+        }
+      }
+    },
+    {
+      "name": "purchase_requests",
+      "title": "طلبات شراء",
+      "fields": {
+        "project_id": {
+          "type": "integer"
+        },
+        "boq_item_id": {
+          "type": "integer"
+        },
+        "item_desc": {
+          "type": "text"
+        },
+        "qty": {
+          "type": "number"
+        },
+        "need_date": {
+          "type": "text"
+        },
+        "status": {
+          "type": "text"
+        }
+      }
+    }
+  ]
+}
