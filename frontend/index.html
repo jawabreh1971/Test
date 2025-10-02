@@ -1,0 +1,19 @@
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"/><title>Contractor Platform</title></head>
+<body>
+<h2>Contractor Platform</h2>
+<nav id="menu"></nav><h3 id="view-title">لوحة التحكم</h3><div id="content"></div>
+<script>
+const API_BASE = "http://localhost:8000";
+const API_KEY = "your-local-key";
+const SCHEMA = {"name": "contractor", "resources": [{"name": "projects", "title": "المشاريع", "fields": {"code": {"type": "text"}, "name": {"type": "text"}, "client": {"type": "text"}, "location": {"type": "text"}, "status": {"type": "text"}, "start_date": {"type": "text"}, "end_date": {"type": "text"}}}, {"name": "boq_items", "title": "بنود الـBOQ", "fields": {"project_id": {"type": "integer"}, "wbs_id": {"type": "integer"}, "item_code": {"type": "text"}, "description": {"type": "text"}, "unit": {"type": "text"}, "qty": {"type": "number"}, "unit_price": {"type": "number"}}}, {"name": "vendors", "title": "الموردون", "fields": {"name": {"type": "text"}, "category": {"type": "text"}, "phone": {"type": "text"}}}, {"name": "purchase_requests", "title": "طلبات شراء", "fields": {"project_id": {"type": "integer"}, "boq_item_id": {"type": "integer"}, "item_desc": {"type": "text"}, "qty": {"type": "number"}, "need_date": {"type": "text"}, "status": {"type": "text"}}}]};
+
+function el(t,a={},c=[]){const e=document.createElement(t);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));(Array.isArray(c)?c:[c]).forEach(x=>{if(typeof x==="string")e.appendChild(document.createTextNode(x));else if(x)e.appendChild(x);});return e;}
+async function apiList(r){const res=await fetch(`${API_BASE}/api/${r}`,{headers:{"X-API-KEY":API_KEY}});return await res.json();}
+async function apiCreate(r,d){await fetch(`${API_BASE}/api/${r}`,{method:"POST",headers:{"X-API-KEY":API_KEY,"Content-Type":"application/json"},body:JSON.stringify({data:d})});}
+function renderList(res){const cont=document.getElementById("content");cont.innerHTML="";const fields=Object.keys(res.fields);const tbl=el("table");tbl.appendChild(el("tr",{},[el("th",{},["#"]),...fields.map(f=>el("th",{},[f]))]));apiList(res.name).then(rows=>rows.forEach(r=>{const tr=el("tr");tr.appendChild(el("td",{},[r.id]));fields.forEach(f=>tr.appendChild(el("td",{},[r[f]??""])));tbl.appendChild(tr);}));const form=el("div",{},fields.map(f=>el("div",{},[el("label",{},[f+": "]),el("input",{id:"f_"+f})])));const btn=el("button",{},["إضافة"]);btn.onclick=async()=>{const d=Object.fromEntries(fields.map(f=>[f,document.getElementById("f_"+f).value]));await apiCreate(res.name,d);location.reload();};cont.appendChild(form);cont.appendChild(btn);cont.appendChild(tbl);}
+function boot(){const nav=document.getElementById("menu");SCHEMA.resources.forEach(r=>{const a=el("a",{href:"#"},[r.title||r.name]);a.onclick=()=>{document.getElementById("view-title").innerText=r.title||r.name;renderList(r);};nav.appendChild(a);});}
+document.addEventListener("DOMContentLoaded",boot);
+</script></body></html>
